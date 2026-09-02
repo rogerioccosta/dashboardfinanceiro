@@ -153,9 +153,93 @@ footer{text-align:center;padding:2rem;font-size:.7rem;color:var(--subtext);borde
 
 /* RESPONSIVE */
 @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+
 @media(max-width:800px){
-  .kpi-grid{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:1fr}
-  .main{padding:1rem}.hdr,.filters{padding-left:1rem;padding-right:1rem}
+  /* Header */
+  .hdr{height:auto;padding:.75rem 1rem;flex-wrap:wrap;gap:8px}
+  .hdr-brand{flex:1;min-width:0}
+  .hdr-title{font-size:1rem}
+  .hdr-sub{display:none}
+  .hdr-right{width:100%;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+  .period-txt{width:100%;text-align:right;font-size:.7rem;margin-bottom:2px}
+  .btn{padding:6px 10px;font-size:.72rem}
+
+  /* Filters */
+  .filters{padding:8px 1rem;gap:6px}
+  .chips{gap:4px}
+  .chip{padding:4px 9px;font-size:.7rem}
+  .fsep{display:none}
+  .fgrp{flex-wrap:wrap;gap:4px}
+  .flabel{font-size:.65rem}
+  .ms-trigger{min-width:90px;font-size:.72rem}
+  .ms-dropdown{min-width:180px}
+
+  /* Main */
+  .main{padding:.75rem 1rem}
+  .pbadge{font-size:.7rem;padding:4px 12px}
+
+  /* KPI grid: 2 colunas no mobile */
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem}
+  .kcard{padding:14px 12px;overflow:visible}
+  .kval{font-size:.9rem;word-break:break-word;line-height:1.2}
+  .kcard-icon{font-size:1rem;top:10px;right:10px}
+  .klabel{font-size:.6rem}
+  .ksub{font-size:.65rem}
+
+  /* Charts: 1 coluna */
+  .cgrid{grid-template-columns:1fr;gap:12px;margin-bottom:1.2rem}
+  .ccard{padding:14px}
+  .cwrap{height:220px}
+  .cwrap.tall{height:260px}
+  .cwrap.med{height:180px}
+
+  /* Section header */
+  .section-hd{font-size:.75rem;margin:1.2rem 0 .7rem}
+
+  /* Tables */
+  .tcard{margin-bottom:1.2rem}
+  table{font-size:.73rem}
+  thead th{padding:7px 10px;font-size:.62rem}
+  tbody td{padding:6px 10px}
+
+  /* Insights */
+  .ins-grid{grid-template-columns:1fr;gap:8px;margin-bottom:1.2rem}
+  .ins-card{font-size:.78rem;padding:12px 14px}
+
+  /* Collapse sections */
+  .col-hdr{padding:11px 14px;font-size:.8rem}
+  .col-body{padding:0 14px 14px}
+
+  /* Folha section */
+  .folha-section{margin:0 0 16px;padding:14px 16px}
+  .folha-kpis{grid-template-columns:1fr 1fr;gap:8px}
+  .folha-cats{grid-template-columns:1fr}
+  .folha-kpi{padding:8px 12px}
+  .folha-kpi .fk-val{font-size:.9rem}
+
+  /* Entradas section */
+  .entradas-section{margin:0 0 16px;padding:14px 16px}
+  .ent-tabs{gap:4px}
+  .ent-tab{padding:5px 10px;font-size:.72rem}
+  .origem-summary{gap:8px}
+  .origem-stat{padding:6px 12px}
+
+  /* Pivot table scroll */
+  .pivot-wrap{overflow-x:auto}
+  .pivot-table{font-size:.68rem}
+  .pivot-origem{max-width:120px}
+}
+
+/* Extra pequeno: <= 420px (iPhone SE, etc) */
+@media(max-width:420px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .kval{font-size:.95rem}
+  .hdr-title{font-size:.9rem}
+  .btn{padding:5px 8px;font-size:.68rem}
+  .chip{padding:3px 8px;font-size:.67rem}
+  .cwrap{height:190px}
+  .cwrap.tall{height:230px}
+  .folha-kpis{grid-template-columns:1fr 1fr}
 }
 
 
