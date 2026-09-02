@@ -140,6 +140,28 @@ tbody td{padding:8px 14px}
 .col-sec.open .col-arrow{transform:rotate(180deg)}
 .proj-note{font-size:.72rem;color:var(--subtext);background:rgba(251,176,59,.07);border:1px solid rgba(251,176,59,.2);border-radius:6px;padding:7px 12px;margin-bottom:10px}
 
+/* ── CADASTRO DE LANÇAMENTO ──────────────────────────────────────────── */
+.cadform-section{margin-bottom:2rem}
+.cadform-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;border-top:3px solid var(--coral)}
+.cadform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.cadform-field{display:flex;flex-direction:column;gap:5px}
+.cadform-full{grid-column:1/-1}
+.cadform-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--subtext)}
+.cadform-input{padding:8px 11px;border-radius:7px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:.82rem;font-family:var(--font);outline:none;transition:border .2s;width:100%}
+.cadform-input:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(242,107,64,.12)}
+.cadform-input[readonly]{background:var(--bg3);color:var(--subtext);cursor:default}
+.cadform-actions{display:flex;align-items:center;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px}
+.cadform-msg{flex:1;font-size:.78rem;font-weight:600;padding:7px 14px;border-radius:7px}
+.cadform-msg.ok{background:rgba(39,174,96,.12);color:#1a7a40;border:1px solid rgba(39,174,96,.25)}
+.cadform-msg.err{background:rgba(231,76,60,.1);color:#c0392b;border:1px solid rgba(231,76,60,.2)}
+.cadform-config{margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+.cadform-config summary{font-size:.73rem;color:var(--subtext);cursor:pointer;user-select:none;font-weight:600;list-style:none}
+.cadform-config summary::-webkit-details-marker{display:none}
+.cadform-config summary::before{content:'▶ ';font-size:.6rem}
+details[open].cadform-config summary::before{content:'▼ '}
+@media(max-width:800px){.cadform-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.cadform-grid{grid-template-columns:1fr}.cadform-card{padding:14px}}
+
 /* FOOTER */
 footer{text-align:center;padding:2rem;font-size:.7rem;color:var(--subtext);border-top:1px solid var(--border);margin-top:2rem}
 
@@ -772,6 +794,88 @@ body[data-theme="dark"] .pivot-table thead th {
     <div class="ent-chart-note">📊 Apenas origens com maior volume total no período. Reactive aos filtros de período.</div>
   </div>
 </section>
+
+
+  <!-- ══ CADASTRO DE LANÇAMENTO ════════════════════════════════════════ -->
+  <div class="section-hd">➕ Cadastro de Lançamento</div>
+  <div class="cadform-section">
+    <div class="cadform-card">
+      <div class="cadform-grid">
+
+        <div class="cadform-field">
+          <label class="cadform-label">Data *</label>
+          <input type="date" id="cfData" class="cadform-input" onchange="cfAutoMes()">
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Mês</label>
+          <input type="text" id="cfMes" class="cadform-input" readonly placeholder="Preenchido automaticamente">
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Tipo *</label>
+          <select id="cfTipo" class="cadform-input">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Custo *</label>
+          <select id="cfCusto" class="cadform-input">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Categoria *</label>
+          <select id="cfCategoria" class="cadform-input">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Centro de Custo</label>
+          <select id="cfCentro" class="cadform-input">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <div class="cadform-field">
+          <label class="cadform-label">Valor (R$) *</label>
+          <input type="text" id="cfValor" class="cadform-input" placeholder="0,00" inputmode="decimal" oninput="cfMaskValor(this)">
+        </div>
+
+        <div class="cadform-field cadform-full">
+          <label class="cadform-label">Descrição</label>
+          <input type="text" id="cfDescricao" class="cadform-input" placeholder="Descrição do lançamento..." maxlength="200">
+        </div>
+
+      </div>
+
+      <div class="cadform-actions">
+        <div id="cfMsg" class="cadform-msg" style="display:none"></div>
+        <button class="btn btn-ghost" onclick="cfReset()">✕ Limpar</button>
+        <button class="btn btn-coral" id="cfSubmitBtn" onclick="cfSubmit()">➕ Adicionar Lançamento</button>
+      </div>
+
+      <details class="cadform-config">
+        <summary>⚙️ Configurar endpoint (Google Apps Script)</summary>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <label class="cadform-label">URL do Apps Script</label>
+          <input type="url" id="cfEndpoint" class="cadform-input"
+            placeholder="https://script.google.com/macros/s/.../exec"
+            style="font-size:.75rem">
+          <div style="font-size:.7rem;color:var(--subtext)">
+            Cole aqui a URL gerada ao publicar o Apps Script na sua planilha. Sem ela, o cadastro não consegue salvar os dados.
+          </div>
+          <div>
+            <button class="btn" style="background:rgba(53,126,245,.15);color:#357EF5;font-size:.73rem" onclick="cfSaveEndpoint()">💾 Salvar URL</button>
+            <span id="cfEndpointStatus" style="font-size:.7rem;margin-left:8px;color:var(--subtext)"></span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
 
 </main>
 
@@ -1819,6 +1923,149 @@ async function refreshData() {
     setTimeout(() => { btn.textContent = '🔄 Atualizar Valores'; }, 5000);
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   CADASTRO DE LANÇAMENTO
+   ══════════════════════════════════════════════════════════════════════ */
+
+const PT_MES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const CC_PADRAO = ['Administrativo','Comercial','Financeiro','Marketing','Operacional','RH','TI'];
+
+function cfAutoMes() {
+  const v = document.getElementById('cfData').value;
+  if (!v) { document.getElementById('cfMes').value = ''; return; }
+  const [y, m, d] = v.split('-').map(Number);
+  const mesLabel = String(d).padStart(2,'0') + '-' + PT_MES[m-1] + '.' + String(y).slice(-2);
+  document.getElementById('cfMes').value = mesLabel;
+}
+
+function cfMaskValor(el) {
+  let raw = el.value.replace(/[^\d]/g, '');
+  if (!raw) { el.value = ''; return; }
+  const num = parseInt(raw, 10) / 100;
+  el.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function cfValorNumerico() {
+  const v = document.getElementById('cfValor').value;
+  return parseFloat(v.replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function cfPopulateSelects() {
+  const recs = D.raw_records || [];
+
+  const tipos = [...new Set(recs.map(r => (r.Tipo||r.tipo||'').trim()))].filter(Boolean).sort();
+  const custos = [...new Set(recs.map(r => (r.tipo_custo||'').replace('Custo ','').trim()))].filter(Boolean).sort();
+  const cats = [...new Set(recs.map(r => (r.categoria||'').trim()))].filter(Boolean).sort();
+
+  const fill = (id, opts) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Selecione...</option>' +
+      opts.map(o => `<option${o===cur?' selected':''}>${o}</option>`).join('');
+  };
+
+  fill('cfTipo', tipos.length ? tipos : ['ENTRADA','SAÍDA']);
+  fill('cfCusto', custos.length ? custos : ['Fixo','Variavel']);
+  fill('cfCategoria', cats.length ? cats : []);
+
+  const centroSel = document.getElementById('cfCentro');
+  if (centroSel && centroSel.options.length <= 1) {
+    CC_PADRAO.forEach(c => {
+      const o = document.createElement('option'); o.textContent = c; centroSel.appendChild(o);
+    });
+  }
+}
+
+function cfReset() {
+  ['cfData','cfMes','cfTipo','cfDescricao','cfValor','cfCusto','cfCategoria','cfCentro']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.tagName === 'SELECT') el.value = '';
+      else el.value = '';
+    });
+  cfShowMsg('', '');
+}
+
+function cfShowMsg(text, type) {
+  const el = document.getElementById('cfMsg');
+  if (!el) return;
+  if (!text) { el.style.display = 'none'; return; }
+  el.className = 'cadform-msg ' + type;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+
+function cfSaveEndpoint() {
+  const url = document.getElementById('cfEndpoint').value.trim();
+  if (!url) { document.getElementById('cfEndpointStatus').textContent = '⚠️ URL vazia'; return; }
+  try { new URL(url); } catch { document.getElementById('cfEndpointStatus').textContent = '❌ URL inválida'; return; }
+  localStorage.setItem('cf_endpoint', url);
+  document.getElementById('cfEndpointStatus').textContent = '✅ Salvo!';
+  setTimeout(() => { document.getElementById('cfEndpointStatus').textContent = ''; }, 3000);
+}
+
+async function cfSubmit() {
+  const data      = document.getElementById('cfData').value;
+  const mes       = document.getElementById('cfMes').value;
+  const tipo      = document.getElementById('cfTipo').value;
+  const descricao = document.getElementById('cfDescricao').value.trim();
+  const valor     = cfValorNumerico();
+  const custo     = document.getElementById('cfCusto').value;
+  const categoria = document.getElementById('cfCategoria').value;
+  const centro    = document.getElementById('cfCentro').value;
+
+  if (!data)      { cfShowMsg('⚠️ Preencha a Data.', 'err'); return; }
+  if (!tipo)      { cfShowMsg('⚠️ Selecione o Tipo.', 'err'); return; }
+  if (!valor)     { cfShowMsg('⚠️ Informe o Valor.', 'err'); return; }
+  if (!custo)     { cfShowMsg('⚠️ Selecione o Custo.', 'err'); return; }
+  if (!categoria) { cfShowMsg('⚠️ Selecione a Categoria.', 'err'); return; }
+
+  const endpoint = (document.getElementById('cfEndpoint').value.trim()) ||
+                   (localStorage.getItem('cf_endpoint') || '');
+
+  if (!endpoint) {
+    cfShowMsg('❌ URL do Apps Script não configurada. Clique em "Configurar endpoint" abaixo.', 'err');
+    return;
+  }
+
+  const [y, m, d] = data.split('-');
+  const dataFormatada = `${d}/${m}/${y}`;
+
+  const payload = { data: dataFormatada, mes, tipo, descricao, valor, custo, categoria, centro };
+
+  const btn = document.getElementById('cfSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Salvando...';
+  cfShowMsg('', '');
+
+  try {
+    const resp = await fetch(endpoint, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    cfShowMsg('✅ Lançamento adicionado com sucesso na planilha!', 'ok');
+    cfReset();
+  } catch (err) {
+    cfShowMsg('❌ Erro ao enviar: ' + (err.message || 'verifique a URL do Apps Script.'), 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '➕ Adicionar Lançamento';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('cf_endpoint');
+  if (saved) {
+    const el = document.getElementById('cfEndpoint');
+    if (el) el.value = saved;
+  }
+  cfPopulateSelects();
+});
 
 </script>
 </body>
