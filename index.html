@@ -2042,16 +2042,19 @@ async function cfSubmit() {
   cfShowMsg('', '');
 
   try {
-    const resp = await fetch(endpoint, {
+    // Usa text/plain para evitar preflight CORS com Google Apps Script
+    await fetch(endpoint, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
+    // mode: no-cors devolve resposta opaca — se chegou aqui sem exception, enviou
     cfShowMsg('✅ Lançamento adicionado com sucesso na planilha!', 'ok');
     cfReset();
   } catch (err) {
-    cfShowMsg('❌ Erro ao enviar: ' + (err.message || 'verifique a URL do Apps Script.'), 'err');
+    cfShowMsg('❌ Erro ao enviar. Verifique: (1) URL do Apps Script está correta, (2) implantação tem acesso "Qualquer pessoa".', 'err');
+    console.error('cfSubmit:', err);
   } finally {
     btn.disabled = false;
     btn.textContent = '➕ Adicionar Lançamento';
