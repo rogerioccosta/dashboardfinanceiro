@@ -1934,8 +1934,8 @@ const CC_PADRAO = ['Administrativo','Comercial','Financeiro','Marketing','Operac
 function cfAutoMes() {
   const v = document.getElementById('cfData').value;
   if (!v) { document.getElementById('cfMes').value = ''; return; }
-  const [y, m, d] = v.split('-').map(Number);
-  const mesLabel = String(d).padStart(2,'0') + '-' + PT_MES[m-1] + '.' + String(y).slice(-2);
+  const [y, m] = v.split('-').map(Number);
+  const mesLabel = m + '- ' + PT_MES[m-1].toLowerCase() + '.' + String(y).slice(-2);
   document.getElementById('cfMes').value = mesLabel;
 }
 
@@ -2074,6 +2074,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-<!-- Última edição: 02/09/2026 às 14:47 -->
+<!-- Última edição: 02/09/2026 às 15:12 -->
 </body>
 </html>
